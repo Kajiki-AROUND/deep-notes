@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ソフトウェアテストを短く深掘りする</title>
+  <style>
+    :root {
+      --bg: #f6f7f2;
+      --card: #fffdf8;
+      --text: #1f2937;
+      --muted: #5b6472;
+      --line: #d8ddcf;
+      --accent: #1f6f5f;
+      --accent-soft: #e3f0eb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+      background:
+        radial-gradient(circle at top left, #eef5e8 0, transparent 36%),
+        linear-gradient(180deg, #f9faf6 0%, var(--bg) 100%);
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    .wrap {
+      width: min(760px, calc(100vw - 24px));
+      margin: 0 auto;
+      padding: 24px 0 48px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px 18px;
+      box-shadow: 0 10px 28px rgba(31, 41, 55, 0.05);
+    }
+
+    h1, h2 {
+      line-height: 1.4;
+      margin: 0 0 12px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      letter-spacing: 0.02em;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      margin-top: 28px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    p, li {
+      font-size: 0.98rem;
+      margin: 0 0 12px;
+    }
+
+    .meta, .note {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .summary {
+      background: var(--accent-soft);
+      border-radius: 14px;
+      padding: 14px 14px 6px;
+      margin: 18px 0 8px;
+    }
+
+    .summary p {
+      margin-bottom: 8px;
+    }
+
+    ul {
+      padding-left: 1.2em;
+      margin: 0;
+    }
+
+    a {
+      color: var(--accent);
+      word-break: break-all;
+    }
+
+    .sources li {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- source_md: LINE/2026-06-27-620311402632708525.md -->
+  <main class="wrap">
+    <article class="card">
+      <p class="meta">2026-06-27 / テーマ名は元メモ「テスト」からの推測です</p>
+      <h1>ソフトウェアテストを短く深掘りする</h1>
+
+      <section class="summary" aria-labelledby="summary-title">
+        <h2 id="summary-title">3行要約</h2>
+        <p>ソフトウェアテストは、作った機能が意図どおり動くかを確かめ、事故や不具合を早く見つけるための活動です。</p>
+        <p>NIST は、コードを読んで確かめる方法と、実際に動かして確かめる方法を組み合わせ、しかも自動化して繰り返すことを重視しています。</p>
+        <p>ISTQB や MDN も、テストは一部の担当者だけの作業ではなく、開発全体の品質を支える基本スキルだと位置づけています。</p>
+      </section>
+
+      <section>
+        <h2>1. テストは何のためにあるか</h2>
+        <p>テストのいちばん大きな役割は、「想定した動き」と「実際の動き」のズレを早めに見つけることです。公開後に不具合が出ると、修正コストだけでなく、利用者の信頼も失いやすくなります。</p>
+        <p>ISTQB は、テストの基礎知識をソフトウェア開発全体で必要なものとして整理しており、開発者、テスト担当者、品質担当者、プロジェクト管理者まで対象に含めています。つまりテストは専門部署だけの仕事ではなく、開発の共通知識として扱うべきものです。</p>
+      </section>
+
+      <section>
+        <h2>2. 動かして確かめるだけでは足りない</h2>
+        <p>NIST は、検証を広く捉えています。実際にプログラムを動かす「動的テスト」だけでなく、コードの静的解析やコードレビューも含めて考えるべきだ、という立場です。</p>
+        <p>これは実務でも重要です。たとえば、実行時にはたまたま表面化しない不具合でも、コードを読む・自動解析する段階で危険信号が見つかることがあります。逆に、コード上は問題が見えなくても、実際の入力や画面操作で壊れることもあります。だから片方だけでは不十分です。</p>
+      </section>
+
+      <section>
+        <h2>3. 自動化すると何が変わるか</h2>
+        <p>MDN は、手作業で何度も同じ確認をするのは時間がかかり、負担も大きいので、自動化ツールに慣れる価値があると説明しています。特に、複数ブラウザ確認、コードの簡易チェック、繰り返し実行が必要な場面で効果が出やすいです。</p>
+        <p>NIST も、何千件ものテストを正確に実施し、同じ検証を何度でも繰り返すには自動化が必要だと述べています。人手の確認は重要ですが、毎回同じ品質で大量実行するのは機械の方が得意です。</p>
+      </section>
+
+      <section>
+        <h2>4. 最低限そろえたい視点</h2>
+        <p>深く学ぶ前でも、次の視点があるとテストの質はかなり上がります。</p>
+        <ul>
+          <li>仕様から考える: 入力条件や境界値を基準に、どのケースで壊れそうかを洗い出す。</li>
+          <li>構造から考える: どの分岐や処理が実際に通ったかを見て、未確認の部分を減らす。</li>
+          <li>過去の失敗を残す: 一度起きた不具合を再発防止用のテストに変える。</li>
+          <li>繰り返すところは自動化する: 手で毎回やる確認は、少しずつ自動に置き換える。</li>
+        </ul>
+        <p>この考え方は、NIST の最小基準にある静的解析、ブラックボックステスト、構造ベースのテスト、過去不具合向けテスト、自動化の考え方とも整合しています。</p>
+      </section>
+
+      <section>
+        <h2>5. ひとことで言うと</h2>
+        <p>ソフトウェアテストは「完成したかを確認する最後の作業」ではなく、「壊れにくく、直しやすい開発にするための継続的な仕組み」です。少人数や個人開発でも、全部を完璧にやる必要はありませんが、手動確認だけに頼らず、再実行しやすい形に少しずつ変えていくのが現実的です。</p>
+      </section>
+
+      <section>
+        <h2>参考URL一覧</h2>
+        <ul class="sources">
+          <li><a href="https://nvlpubs.nist.gov/nistpubs/ir/2021/NIST.IR.8397.pdf">NIST IR 8397 Guidelines on Minimum Standards for Developer Verification of Software</a></li>
+          <li><a href="https://istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/">ISTQB Certified Tester Foundation Level (CTFL) v4.0 Overview</a></li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Testing/Automated_testing">MDN Introduction to automated testing</a></li>
+        </ul>
+      </section>
+
+      <p class="note">元メモが「テスト」の1語のみだったため、今回は一般的な「ソフトウェアテスト」の解説として構成しました。</p>
+    </article>
+  </main>
+</body>
+</html>
