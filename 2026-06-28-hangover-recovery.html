@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>二日酔いは「早く消す」より「悪化させない」が基本</title>
+  <title>二日酔いは「早く治す」より「悪化させない」が基本</title>
   <style>
     :root {
       color-scheme: light;
-      --bg: #f5efe7;
+      --bg: #f5efe8;
       --paper: #fffdf9;
-      --text: #2e251d;
-      --muted: #6e6257;
-      --line: #dfd4c8;
-      --accent: #a15430;
-      --accent-soft: #f7e7dc;
-      --warn: #fff4da;
+      --text: #2b241d;
+      --muted: #6f645b;
+      --line: #e0d5ca;
+      --accent: #9b5229;
+      --accent-soft: #f8e7dc;
+      --note: #fff4dc;
     }
 
     * {
@@ -24,8 +24,8 @@
     body {
       margin: 0;
       background:
-        radial-gradient(circle at top right, rgba(161, 84, 48, 0.10), transparent 34%),
-        linear-gradient(180deg, #efe2d5 0%, var(--bg) 180px);
+        radial-gradient(circle at top right, rgba(155, 82, 41, 0.10), transparent 34%),
+        linear-gradient(180deg, #eee3d7 0%, var(--bg) 200px);
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "YuGothic", "Noto Sans JP", sans-serif;
       line-height: 1.9;
@@ -34,20 +34,20 @@
     main {
       width: min(100%, 760px);
       margin: 0 auto;
-      padding: 24px 16px 42px;
+      padding: 24px 16px 44px;
     }
 
     article {
       background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      box-shadow: 0 16px 36px rgba(72, 44, 24, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      border-radius: 24px;
+      box-shadow: 0 18px 50px rgba(60, 42, 28, 0.08);
       overflow: hidden;
     }
 
     .hero {
       padding: 28px 20px 18px;
-      background: linear-gradient(135deg, rgba(161, 84, 48, 0.16), rgba(255, 255, 255, 0.92));
+      background: linear-gradient(135deg, rgba(155, 82, 41, 0.16), rgba(255, 255, 255, 0.92));
       border-bottom: 1px solid var(--line);
     }
 
@@ -56,16 +56,17 @@
       margin: 0 0 10px;
       padding: 6px 10px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.74);
+      background: rgba(255, 255, 255, 0.72);
       color: var(--accent);
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       font-weight: 700;
+      letter-spacing: 0.04em;
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(1.72rem, 5.8vw, 2.3rem);
-      line-height: 1.32;
+      font-size: clamp(1.7rem, 6vw, 2.35rem);
+      line-height: 1.3;
       letter-spacing: -0.02em;
     }
 
@@ -78,14 +79,14 @@
     .summary {
       margin: 18px 20px 0;
       padding: 16px;
-      border-radius: 16px;
       background: var(--accent-soft);
-      border: 1px solid rgba(161, 84, 48, 0.12);
+      border: 1px solid rgba(155, 82, 41, 0.12);
+      border-radius: 18px;
     }
 
     .summary p {
       margin: 0;
-      font-weight: 650;
+      font-size: 0.98rem;
     }
 
     .summary p + p {
@@ -93,7 +94,7 @@
     }
 
     .content {
-      padding: 8px 20px 12px;
+      padding: 8px 20px 10px;
     }
 
     section {
@@ -107,7 +108,7 @@
 
     h2 {
       margin: 0 0 12px;
-      font-size: 1.18rem;
+      font-size: 1.2rem;
       line-height: 1.45;
     }
 
@@ -123,23 +124,18 @@
     .note {
       margin-top: 14px;
       padding: 14px 15px;
-      background: var(--warn);
-      border: 1px solid #f0d596;
-      border-radius: 14px;
-      font-size: 0.96rem;
+      background: var(--note);
+      border-radius: 16px;
+      font-size: 0.95rem;
     }
 
     .refs {
       padding: 0 20px 24px;
     }
 
-    .refs h2 {
-      margin-top: 0;
-    }
-
-    ol {
+    ul {
       margin: 0;
-      padding-left: 1.3em;
+      padding-left: 1.2em;
     }
 
     li + li {
@@ -151,10 +147,10 @@
       word-break: break-all;
     }
 
-    .source {
-      margin-top: 16px;
+    footer {
+      padding: 0 20px 24px;
       color: var(--muted);
-      font-size: 0.92rem;
+      font-size: 0.9rem;
     }
 
     @media (max-width: 480px) {
@@ -164,7 +160,8 @@
 
       .summary,
       .content,
-      .refs {
+      .refs,
+      footer {
         padding-left: 18px;
         padding-right: 18px;
       }
@@ -175,61 +172,64 @@
   <main>
     <article>
       <header class="hero">
-        <p class="eyebrow">二日酔い対策</p>
-        <h1>二日酔いは「早く消す」より「悪化させない」が基本</h1>
-        <p class="lead">確実な即効薬を探すより、脱水と胃への刺激を増やさず、危険サインを見逃さないほうが実用的です。</p>
+        <p class="eyebrow">二日酔い対処</p>
+        <h1>二日酔いは「早く治す」より「悪化させない」が基本</h1>
+        <p class="lead">即効の裏ワザを探すより、水分と休息を優先し、危険サインを見逃さないほうが実用的です。</p>
       </header>
 
       <div class="summary" aria-label="3行要約">
-        <p>二日酔いを確実にすぐ消す方法は、公的な医療情報では確認されておらず、回復の中心は時間です。</p>
-        <p>現実的な対処は、水分を少しずつ補う、休む、追加の飲酒や無理な運動を避けることです。</p>
-        <p>意識が悪い、呼吸が遅い、けいれんするなどは二日酔いではなく急性アルコール中毒の可能性があり、救急判断が必要です。</p>
+        <p>二日酔いを確実にすぐ消す方法は確認されておらず、回復の中心は時間です。</p>
+        <p>ただし、水分を少しずつとる、胃を刺激しすぎない、迎え酒をしない、という対処で悪化は防ぎやすくなります。</p>
+        <p>意識がぼんやりする、呼吸が遅い、何度も吐くなどは二日酔いではなく急性アルコール中毒の可能性があり、早めの救急判断が必要です。</p>
       </div>
 
       <div class="content">
         <section>
-          <h2>1. まず前提: 「特効薬」は期待しすぎない</h2>
-          <p>米国の国立機関 NIAAA は、二日酔いを完全に治す方法は時間以外にないと説明しています。コーヒー、冷水シャワー、いわゆる迎え酒のような方法は、回復を早める手段として科学的に確立していません。</p>
-          <p>つまり実務的には、裏ワザを探すより、体がアルコールを処理し終えるまで症状を悪化させない過ごし方を選ぶのが基本です。</p>
+          <h2>1. まず前提: 二日酔いは「すぐ治す薬」が中心ではない</h2>
+          <p>米国の国立機関 NIAAA は、二日酔いを完全に治す方法は時間以外にないと案内しています。コーヒー、熱いシャワー、翌朝にもう一度飲むことは、回復法として信頼できる標準手段にはなっていません。</p>
+          <p>つまり現実的な考え方は、魔法の解決策を探すことではなく、体がアルコールとその分解産物を処理し終えるまで、脱水や胃の刺激を増やさずにやり過ごすことです。</p>
         </section>
 
         <section>
-          <h2>2. つらさの原因は1つではない</h2>
-          <p>厚生労働省の e-ヘルスネットでは、二日酔いには脱水、低血糖、睡眠の乱れ、胃腸への刺激、炎症反応、アセトアルデヒドの影響など、複数の要因が絡むと整理されています。</p>
-          <p>そのため、頭痛だけ、吐き気だけを狙った情報で「これで全部解決」と言い切る説明は慎重に見たほうが安全です。二日酔いは単一原因ではなく、体全体の負担が重なって起きるものだからです。</p>
+          <h2>2. つらさの原因は1つではなく、脱水だけでもない</h2>
+          <p>厚生労働省の e-ヘルスネットでは、二日酔いの背景として、軽い脱水、低血糖、睡眠の乱れ、胃腸への刺激、炎症反応、アセトアルデヒドの影響、酒に含まれる不純物などが複雑に関わると整理されています。</p>
+          <p>そのため、頭痛だけ止めれば終わりとは限りません。吐き気が強い人、眠れていない人、胃が荒れている人では、つらさの出方も対処の優先順位も少しずつ変わります。</p>
         </section>
 
         <section>
-          <h2>3. 今日できる対処は、水分と休息を優先すること</h2>
-          <p>飲み込める状態で吐き気が強すぎないなら、水や経口補水に近い飲み物を少しずつとるのが基本です。一気に大量に飲むより、こまめに補うほうが現実的です。</p>
-          <p>食事は、胃が受けつける範囲で軽くとる程度で十分です。市販の痛み止めを使う場合も、NIAAA はアセトアミノフェンの肝臓への負担や、アスピリン、イブプロフェンの胃への刺激に注意を促しています。</p>
-          <div class="note">避けたい行動は、迎え酒、コーヒーの飲みすぎ、無理な運動、冷水シャワーです。これらは回復を早める確かな方法ではなく、かえって脱水や体への負担を増やすおそれがあります。</div>
+          <h2>3. 今日の対処は、水分、休息、刺激を減らすの3本柱</h2>
+          <p>飲み込める状態なら、水や経口補水液を少しずつ飲むのが基本です。一気飲みより、こまめに補うほうが現実的です。食事も、重いものを無理に食べるより、胃が受けつける範囲の軽いものからで十分です。</p>
+          <p>痛み止めを自己判断で重ねると、胃や肝臓に負担がかかる場合があります。特に NIAAA は、アセトアミノフェンはアルコールと組み合わせると肝臓への負担が問題になる可能性があると説明しています。</p>
+          <div class="note">避けたいのは、迎え酒、コーヒーの飲みすぎ、無理な運動です。眠気や脱水が残る状態で動くと、転倒や事故のリスクも上がります。</div>
         </section>
 
         <section>
-          <h2>4. 危険サインは「ただの二日酔い」と決めない</h2>
-          <p>NHS は、反応が鈍い、ろれつが回らない、呼吸が遅いまたは不規則、けいれん、意識がない、何度も吐くなどは急性アルコール中毒のサインになりうると案内しています。</p>
-          <p>本人が眠っているように見えても、起こしても反応が弱い場合は様子見に寄せないほうが安全です。この段階は家庭内の工夫ではなく、救急相談や緊急要請を考える領域です。</p>
+          <h2>4. これは様子見しない: 危険サインは救急判断の領域</h2>
+          <p>NHS は、混乱、反応が鈍い、けいれん、呼吸が遅いまたは不規則、何度も吐く、意識を失うなどをアルコール中毒のサインとして挙げています。ここまで来ると、家庭で休ませればよい範囲を超えます。</p>
+          <p>本人が「寝ているだけ」に見えても、起こしにくい、呼吸が浅い、ぐったりしている場合は危険です。二日酔いと決めつけず、救急相談や受診を優先したほうが安全です。</p>
         </section>
 
         <section>
-          <h2>5. 次回の予防は、飲み方を変えるほうが効きやすい</h2>
-          <p>厚生労働省の飲酒ガイドラインでは、空腹で飲まないこと、飲酒の合間に水をはさむこと、急いで飲まないことが勧められています。これは血中アルコール濃度が急に上がりにくくなるためです。</p>
-          <p>二日酔いは翌朝に一発で消すより、前夜の飲み方で悪化を防ぐほうが再現性があります。頻繁に二日酔いになるなら、量やペースそのものの見直しが必要です。</p>
+          <h2>5. 次回の予防は、飲む前より「飲んでいる途中」の工夫が効きやすい</h2>
+          <p>厚生労働省の飲酒ガイドラインでは、飲酒前または飲酒中に食事をとること、合間に水や炭酸水を飲むこと、急いで飲まないことが勧められています。これは血中アルコール濃度が急に上がりにくくなるためです。</p>
+          <p>要するに、二日酔いは翌朝に帳尻を合わせるより、前夜の飲み方で悪化を防ぐほうが再現性があります。空腹で強い酒を速く飲む流れは避けたほうが無難です。</p>
         </section>
       </div>
 
       <div class="refs">
         <h2>参考URL一覧</h2>
-        <ol>
+        <ul>
           <li><a href="https://www.niaaa.nih.gov/publications/brochures-and-fact-sheets/hangovers">https://www.niaaa.nih.gov/publications/brochures-and-fact-sheets/hangovers</a></li>
           <li><a href="https://kennet.mhlw.go.jp/information/information/alcohol/a-03-005.html">https://kennet.mhlw.go.jp/information/information/alcohol/a-03-005.html</a></li>
           <li><a href="https://www.mhlw.go.jp/stf/newpage_38541.html">https://www.mhlw.go.jp/stf/newpage_38541.html</a></li>
+          <li><a href="https://www.mhlw.go.jp/content/12201000/001217871.pdf">https://www.mhlw.go.jp/content/12201000/001217871.pdf</a></li>
           <li><a href="https://www.nhs.uk/conditions/alcohol-poisoning/">https://www.nhs.uk/conditions/alcohol-poisoning/</a></li>
-          <li><a href="https://kennet.mhlw.go.jp/information/information/alcohol/a-02-002.html">https://kennet.mhlw.go.jp/information/information/alcohol/a-02-002.html</a></li>
-        </ol>
-        <p class="source">元メモ: LINE/2026-06-28-620328873921610109.md</p>
+        </ul>
       </div>
+
+      <footer>
+        <p>この記事は一般向けの情報整理です。症状が強い場合や意識・呼吸の異常がある場合は、医療機関や救急相談を優先してください。</p>
+      </footer>
     </article>
   </main>
   <!-- source_md: LINE/2026-06-28-620328873921610109.md -->
