@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shopifyサイト軽量化は「計測して、重い要素を減らす」が基本</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f3f6f8;
+      --paper: #ffffff;
+      --text: #1d2730;
+      --muted: #5d6a75;
+      --line: #d8e1e8;
+      --accent: #0d7a5f;
+      --accent-soft: #e8f5f0;
+      --note: #eef8ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(13, 122, 95, 0.14), transparent 28%),
+        linear-gradient(180deg, #edf3f6 0%, var(--bg) 220px);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "YuGothic", "Noto Sans JP", sans-serif;
+      line-height: 1.9;
+    }
+
+    main {
+      width: min(100%, 760px);
+      margin: 0 auto;
+      padding: 24px 16px 44px;
+    }
+
+    article {
+      background: var(--paper);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 24px;
+      box-shadow: 0 18px 48px rgba(27, 44, 56, 0.08);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 28px 20px 18px;
+      background: linear-gradient(135deg, rgba(13, 122, 95, 0.16), rgba(255, 255, 255, 0.95));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin: 0 0 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.7rem, 6vw, 2.3rem);
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+    }
+
+    .lead {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .summary {
+      margin: 18px 20px 0;
+      padding: 16px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(13, 122, 95, 0.12);
+      border-radius: 18px;
+    }
+
+    .summary p {
+      margin: 0;
+      font-size: 0.98rem;
+    }
+
+    .summary p + p {
+      margin-top: 8px;
+    }
+
+    .content {
+      padding: 8px 20px 10px;
+    }
+
+    section {
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    section:last-of-type {
+      border-bottom: 0;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 1.2rem;
+      line-height: 1.45;
+    }
+
+    p {
+      margin: 0 0 12px;
+      font-size: 1rem;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    .note {
+      margin-top: 14px;
+      padding: 14px 15px;
+      background: var(--note);
+      border-radius: 16px;
+      font-size: 0.95rem;
+    }
+
+    .refs {
+      padding: 0 20px 24px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.2em;
+    }
+
+    li + li {
+      margin-top: 10px;
+    }
+
+    a {
+      color: var(--accent);
+      word-break: break-all;
+    }
+
+    footer {
+      padding: 0 20px 24px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 480px) {
+      .hero {
+        padding: 24px 18px 16px;
+      }
+
+      .summary,
+      .content,
+      .refs,
+      footer {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <article>
+      <header class="hero">
+        <p class="eyebrow">Shopify軽量化</p>
+        <h1>Shopifyサイト軽量化は「計測して、重い要素を減らす」が基本</h1>
+        <p class="lead">Shopify側がすでに最適化している部分と、自分で改善すべき部分を切り分けると、無駄な作業を減らしやすくなります。</p>
+      </header>
+
+      <div class="summary" aria-label="3行要約">
+        <p>ShopifyではCDNや画像最適化などの基盤最適化がすでに入っているため、軽量化の主戦場はテーマ、画像、アプリ、追加スクリプトです。</p>
+        <p>特に重要なのは、最初に見える画像を遅延読み込みしないこと、画像サイズを明示すること、不要なJavaScriptや外部タグを減らすことです。</p>
+        <p>改善は勘ではなく、ShopifyのWeb Performance reportsやPageSpeed Insightsで計測し、ホーム・商品・コレクションページを優先して見るのが実務的です。</p>
+      </div>
+
+      <div class="content">
+        <section>
+          <h2>1. まずは「何が遅いか」を計測する</h2>
+          <p>Shopifyは、旧来の単一スコアよりも、実際の訪問者データに近い Core Web Vitals を重視しています。これは、読み込みの速さを示す LCP、画面のガタつきを示す CLS、操作への反応を示す INP の3指標です。</p>
+          <p>ShopifyのWeb Performance reportsでは、実ユーザーの体験ベースで変化を追えます。PageSpeed Insightsも併用できますが、実運用では「ホーム」「商品」「コレクション」の主要ページを優先して比較したほうが改善対象を絞りやすいです。</p>
+          <div class="note">計測とは、現状を数値で確認することです。体感だけで直すと、効いたのか悪化したのか判断しづらくなります。</div>
+        </section>
+
+        <section>
+          <h2>2. Shopifyが自動でやってくれることと、手を入れるべきことを分ける</h2>
+          <p>Shopify Help Centerでは、CDN、画像最適化、gzip圧縮、CSS/JavaScriptの最小化などが標準で入っていると案内されています。つまり、「CDNを入れれば速くなる」のような一般論をそのまま当てはめても、Shopifyではすでに実施済みなことが多いです。</p>
+          <p>一方で、速度を落としやすい主因として、テーマ、インストール済みアプリ、手動で追加した第三者コードが挙げられています。軽量化の本丸は、ここを減らすことです。</p>
+          <p>また、外部ドメインからCSSやJavaScriptや画像を読んでいるなら、可能な範囲で `assets` 配下に置いて Shopify CDN から配信するほうが有利です。接続先ドメインが増えると、読み込みの待ち時間が増えやすくなります。</p>
+        </section>
+
+        <section>
+          <h2>3. 画像最適化は「全部lazy」ではなく、見える画像を優先する</h2>
+          <p>Shopify公式の performance blog では、最初に見える大きな画像、つまりLCP画像を lazy load しないことが重要だと説明されています。最初に見える画像まで遅延すると、読み込み完了が遅れ、体感も指標も悪化しやすくなります。</p>
+          <p>逆に、画面の下にある画像には `loading="lazy"` を使うのが有効です。Shopifyの Theme Check でも、最初から見えない画像にはネイティブ lazy loading を使うことが推奨されています。</p>
+          <p>さらに `width` と `height` を入れて画像の表示領域を先に確保すると、CLSの改善につながります。`web.dev` でも、画像サイズ未指定はレイアウトずれの原因になりやすいと整理されています。</p>
+        </section>
+
+        <section>
+          <h2>4. JavaScriptとアプリは「必要な場所だけ読む」に寄せる</h2>
+          <p>Shopify theme の performance best practices では、描画を止める parser-blocking scripts を避け、`defer` や `async` を使うよう案内されています。これは、HTMLの表示を待たせないための基本です。</p>
+          <p>アプリや追加機能も、全ページで一律に読み込むより、必要なページだけで読み込む設計のほうが有利です。Shopifyの app embed blocks は、必要なページでだけスクリプトを出しやすくする仕組みです。</p>
+          <p>実務上は、タグマネージャーの不要タグ、使っていないアプリ、重いアニメーション、過剰なセクション数を先に疑うのが近道です。機能が多いほど売上に効くとは限らず、表示遅延で離脱が増えることもあります。</p>
+        </section>
+
+        <section>
+          <h2>5. 改善の進め方は「主要3ページを、変更前後で比べる」が安全</h2>
+          <p>Shopifyは、テーマやアプリの影響を見るときに、ホーム17%、商品40%、コレクション43%という重みで主要ページを見ています。これは「売上に効きやすいページから見る」という意味でも理にかなっています。</p>
+          <p>そのため、改善は一気に大量変更するより、アプリ削減、画像修正、スクリプト変更などを小さく分けて、前後比較しながら進めたほうが安全です。Web Performance reports では、アプリ導入やテーマ更新の前後変化も追いやすくなっています。</p>
+          <div class="note">軽量化の結論は単純で、Shopifyの標準最適化を前提にしつつ、「テーマ」「画像」「アプリ」「第三者コード」を順番に削ることです。新機能を足す前に、今ある重さを減らすほうが再現性の高い改善になりやすいです。</div>
+        </section>
+      </div>
+
+      <div class="refs">
+        <h2>参考URL一覧</h2>
+        <ul>
+          <li><a href="https://help.shopify.com/en/manual/online-store/web-performance/improving-web-performance">https://help.shopify.com/en/manual/online-store/web-performance/improving-web-performance</a></li>
+          <li><a href="https://help.shopify.com/en/manual/online-store/web-performance/web-performance-reports">https://help.shopify.com/en/manual/online-store/web-performance/web-performance-reports</a></li>
+          <li><a href="https://shopify.dev/docs/storefronts/themes/best-practices/performance">https://shopify.dev/docs/storefronts/themes/best-practices/performance</a></li>
+          <li><a href="https://shopify.dev/docs/storefronts/themes/tools/theme-check/checks/img-lazy-loading">https://shopify.dev/docs/storefronts/themes/tools/theme-check/checks/img-lazy-loading</a></li>
+          <li><a href="https://shopify.dev/docs/apps/build/performance/storefront">https://shopify.dev/docs/apps/build/performance/storefront</a></li>
+          <li><a href="https://performance.shopify.com/blogs/blog/using-shopify-cdn-for-better-performance">https://performance.shopify.com/blogs/blog/using-shopify-cdn-for-better-performance</a></li>
+          <li><a href="https://performance.shopify.com/blogs/blog/optimizing-images-for-performance-on-shopify">https://performance.shopify.com/blogs/blog/optimizing-images-for-performance-on-shopify</a></li>
+          <li><a href="https://performance.shopify.com/blogs/blog/web-performance-dashboard">https://performance.shopify.com/blogs/blog/web-performance-dashboard</a></li>
+          <li><a href="https://web.dev/articles/browser-level-image-lazy-loading">https://web.dev/articles/browser-level-image-lazy-loading</a></li>
+          <li><a href="https://web.dev/articles/cls">https://web.dev/articles/cls</a></li>
+        </ul>
+      </div>
+
+      <footer>
+        <p>この記事は一般向けの整理です。Shopifyの仕様で自動対応されている部分も多いため、外部の一般的な速度診断結果は、そのまま鵜呑みにせずShopify公式資料と合わせて判断するのが安全です。</p>
+      </footer>
+    </article>
+  </main>
+  <!-- source_md: LINE/2026-06-28-620438158777778636.md -->
+</body>
+</html>
