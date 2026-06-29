@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shopify軽量化のベストプラクティス</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #eef4f1;
+      --paper: #ffffff;
+      --text: #1f2a24;
+      --muted: #5d6d64;
+      --line: #d4e0d8;
+      --accent: #1f7a52;
+      --accent-soft: #e5f4ed;
+      --note: #f6f8d9;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(31, 122, 82, 0.10), transparent 32%),
+        linear-gradient(180deg, #e7f0eb 0%, var(--bg) 220px);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "YuGothic", "Noto Sans JP", sans-serif;
+      line-height: 1.9;
+    }
+
+    main {
+      width: min(100%, 760px);
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    article {
+      background: var(--paper);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      border-radius: 24px;
+      box-shadow: 0 18px 50px rgba(25, 48, 36, 0.08);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 28px 20px 18px;
+      background: linear-gradient(135deg, rgba(31, 122, 82, 0.16), rgba(255, 255, 255, 0.94));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin: 0 0 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.76);
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.7rem, 6vw, 2.3rem);
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+    }
+
+    .lead {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .summary {
+      margin: 18px 20px 0;
+      padding: 16px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(31, 122, 82, 0.12);
+      border-radius: 18px;
+    }
+
+    .summary p {
+      margin: 0;
+      font-size: 0.98rem;
+    }
+
+    .summary p + p {
+      margin-top: 8px;
+    }
+
+    .content {
+      padding: 8px 20px 10px;
+    }
+
+    section {
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    section:last-of-type {
+      border-bottom: 0;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 1.18rem;
+      line-height: 1.45;
+    }
+
+    p {
+      margin: 0 0 12px;
+      font-size: 1rem;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    .note {
+      margin-top: 14px;
+      padding: 14px 15px;
+      background: var(--note);
+      border-radius: 16px;
+      font-size: 0.95rem;
+    }
+
+    .refs {
+      padding: 0 20px 24px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.2em;
+    }
+
+    li + li {
+      margin-top: 10px;
+    }
+
+    a {
+      color: var(--accent);
+      word-break: break-all;
+    }
+
+    footer {
+      padding: 0 20px 24px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 480px) {
+      .hero {
+        padding: 24px 18px 16px;
+      }
+
+      .summary,
+      .content,
+      .refs,
+      footer {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <article>
+      <header class="hero">
+        <p class="eyebrow">Shopify軽量化</p>
+        <h1>Shopify軽量化のベストプラクティス</h1>
+        <p class="lead">Shopifyの表示速度は、画像・JavaScript・計測方法の3点を先に整えると改善しやすいです。</p>
+      </header>
+
+      <div class="summary" aria-label="3行要約">
+        <p>Shopify公式は、まずJavaScriptを減らし、HTMLとCSSを基本に組むことを強く勧めています。</p>
+        <p>画像は「必要な大きさで出す」「画面外は遅延読み込みする」だけでも、体感速度に効きやすいです。</p>
+        <p>改善は感覚で決めず、Core Web Vitalsという実ユーザー指標で継続監視するのが安全です。</p>
+      </div>
+
+      <div class="content">
+        <section>
+          <h2>1. 最初に見るべきは「速いかどうか」ではなく、何を測るか</h2>
+          <p>Googleの web.dev では、Web Vitals はサイト体験を共通ルールで測る指標群だと整理されています。特に Core Web Vitals は、読み込み、操作反応、画面のズレを確認するための重要指標です。</p>
+          <p>目安としては、LCP は 2.5 秒以内、INP は 200 ミリ秒以下、CLS は 0.1 以下が「良い」とされています。LCP は「メインの見出しや大きな画像が見えるまでの速さ」、INP は「触ったときの反応速度」、CLS は「読み込み中にレイアウトがずれる量」です。</p>
+          <div class="note">要するに、Shopify軽量化は「なんとなく速く見える」ではなく、まず測る物差しを決めるところから始めるのが実務的です。</div>
+        </section>
+
+        <section>
+          <h2>2. Shopify公式が最優先にしているのは、JavaScriptを増やしすぎないこと</h2>
+          <p>Shopify公式ドキュメントは、テーマの基本機能は HTML と CSS を中心に作り、JavaScript は補助的に使うべきだと明記しています。商品を探す、購入するといった基本動作に JavaScript が必須な設計は避けるべき、という考え方です。</p>
+          <p>同じページでは、圧縮後の JavaScript バンドルは 16KB 以下を目安にするよう案内されています。これは「読み込むスクリプトの塊を小さくする」という意味で、特にトップページや商品ページで効きやすいです。</p>
+          <p>また、使わない部品や重い機能は最初から全部読むのではなく、必要になったタイミングで読み込む形に寄せると、初回表示が軽くなります。</p>
+        </section>
+
+        <section>
+          <h2>3. 画像は「きれいに見せる」より「適切な大きさで出す」が先</h2>
+          <p>Shopify公式は、レスポンシブ画像、つまり端末サイズに応じて適切な画像サイズを返す仕組みを推奨しています。大きすぎる画像を小さなスマホにそのまま送ると、無駄な通信が増えて表示が遅くなります。</p>
+          <p>加えて、最初の画面に見えていない画像は `loading='lazy'` で遅延読み込みにするよう案内されています。これは「すぐ見えない画像は後回しにする」設定です。ただし、最初に見える大事な画像まで遅延読み込みすると逆効果なので、ファーストビューの画像には使わないのが基本です。</p>
+          <p>さらに Shopify の CDN は画像や静的ファイルの配信を自動最適化してくれますが、その恩恵を受けるには、外部にばらまかず、できるだけ Shopify 側の配信基盤に載せるのが有利です。</p>
+        </section>
+
+        <section>
+          <h2>4. Liquid と CSS も積み重なると遅くなる</h2>
+          <p>Shopify公式は、Liquid の複雑な処理をループのたびに繰り返すと描画時間が伸びると説明しています。Liquid は Shopify テーマで使うテンプレート言語で、商品一覧や価格表示の出し分けを書く部分です。</p>
+          <p>例えば、同じ並び替えや計算を商品ごとに何度も回すのではなく、先にまとめて処理してから表示する方が軽くなります。あわせて、CSS は必要な画面だけに読み込まれる構成に寄せると、不要な読み込みを減らせます。</p>
+          <p>つまり、アプリや画像だけでなく、テーマの中の書き方そのものも速度に効く、という理解が必要です。</p>
+        </section>
+
+        <section>
+          <h2>5. 改善は Lighthouse だけで終わらせず、実ユーザー指標で追い続ける</h2>
+          <p>Shopifyテーマの公式ガイドでは、ホーム、商品、コレクションの主要ページを基準に Lighthouse で確認する流れが紹介されています。一方で web.dev は、Core Web Vitals は本来「実際の利用者の体験」で見るべきで、Lighthouse のような実験室データだけでは不十分だと説明しています。</p>
+          <p>そのため、改善の実務は「Lighthouse で原因を探す」「実ユーザーデータで成果を確認する」の二段構えが安全です。特にECでは、見た目の派手さより、商品画像が早く出ること、カート操作が引っかからないこと、読み込み中にボタン位置がずれないことが売上に直結しやすいです。</p>
+          <div class="note">最短で効果を出すなら、1. 主要ページのLCP悪化要因を特定する、2. 不要なJavaScriptを減らす、3. 画像サイズと遅延読み込みを整理する、の順が再現性の高い進め方です。</div>
+        </section>
+      </div>
+
+      <div class="refs">
+        <h2>参考URL一覧</h2>
+        <ul>
+          <li><a href="https://shopify.dev/docs/storefronts/themes/best-practices/performance">https://shopify.dev/docs/storefronts/themes/best-practices/performance</a></li>
+          <li><a href="https://shopify.dev/docs/storefronts/themes/best-practices/performance/platform">https://shopify.dev/docs/storefronts/themes/best-practices/performance/platform</a></li>
+          <li><a href="https://web.dev/articles/vitals">https://web.dev/articles/vitals</a></li>
+          <li><a href="https://web.dev/articles/lcp">https://web.dev/articles/lcp</a></li>
+          <li><a href="https://web.dev/articles/vitals-tools">https://web.dev/articles/vitals-tools</a></li>
+        </ul>
+      </div>
+
+      <footer>
+        <p>この記事は一般向けの整理です。実装に入るときは、ホーム、商品、コレクションの3ページを分けて計測すると改善点を絞り込みやすくなります。</p>
+      </footer>
+    </article>
+  </main>
+  <!-- source_md: LINE/2026-06-28-620438158777778636.md -->
+</body>
+</html>
