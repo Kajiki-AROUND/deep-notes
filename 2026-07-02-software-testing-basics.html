@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ソフトウェアテストは「後で確認」ではなく「早く学ぶ仕組み」</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4f6f8;
+      --paper: #ffffff;
+      --text: #1f2933;
+      --muted: #5f6c7b;
+      --line: #d9e2ec;
+      --accent: #0b6e4f;
+      --accent-soft: #e9f7f1;
+      --hero: #eef7f4;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(11, 110, 79, 0.12), transparent 30%),
+        linear-gradient(180deg, #f8fbfc 0%, var(--bg) 240px);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "YuGothic", "Noto Sans JP", sans-serif;
+      line-height: 1.9;
+    }
+
+    main {
+      width: min(100%, 760px);
+      margin: 0 auto;
+      padding: 22px 14px 40px;
+    }
+
+    article {
+      background: var(--paper);
+      border: 1px solid rgba(217, 226, 236, 0.9);
+      border-radius: 24px;
+      box-shadow: 0 18px 42px rgba(15, 23, 42, 0.06);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 26px 18px 18px;
+      background: linear-gradient(135deg, var(--hero), #ffffff);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin: 0 0 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.7rem, 6vw, 2.25rem);
+      line-height: 1.35;
+      letter-spacing: -0.02em;
+    }
+
+    .lead {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .summary {
+      margin: 18px 18px 0;
+      padding: 16px;
+      border-radius: 18px;
+      background: var(--accent-soft);
+    }
+
+    .summary p {
+      margin: 0;
+      font-size: 0.98rem;
+    }
+
+    .summary p + p {
+      margin-top: 8px;
+    }
+
+    .content {
+      padding: 8px 18px 10px;
+    }
+
+    section {
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    section:last-of-type {
+      border-bottom: 0;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 1.16rem;
+      line-height: 1.45;
+    }
+
+    p {
+      margin: 0 0 12px;
+      font-size: 1rem;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    .note {
+      margin-top: 14px;
+      padding: 14px 15px;
+      border-radius: 16px;
+      background: #f7fafc;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .refs {
+      padding: 0 18px 24px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.2em;
+    }
+
+    li + li {
+      margin-top: 10px;
+    }
+
+    a {
+      color: var(--accent);
+      word-break: break-all;
+    }
+
+    footer {
+      padding: 0 18px 24px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <article>
+      <header class="hero">
+        <p class="eyebrow">ソフトウェアテスト</p>
+        <h1>ソフトウェアテストは「後で確認」ではなく「早く学ぶ仕組み」</h1>
+        <p class="lead">テストは単なる最終チェックではなく、想定どおりに動くかを早めに確かめ、問題を安く直すための仕組みです。</p>
+      </header>
+
+      <div class="summary" aria-label="3行要約">
+        <p>ISTQBは、テストが欠陥の発見や品質評価、次の工程へ進む判断材料に役立つと整理しています。</p>
+        <p>Google系のAndroid Developersは、小さいテストを多くして大きいテストを絞る「テストピラミッド」が、速いフィードバックに向くと説明しています。</p>
+        <p>Microsoft Learnは、読みやすく壊れにくいテストを書くには、名前付けと `Arrange-Act-Assert` の分離が重要だと示しています。</p>
+      </div>
+
+      <div class="content">
+        <section>
+          <h2>1. テストの目的は「正誤判定」だけではない</h2>
+          <p>ソフトウェアテストというと、完成後にバグがあるか見る作業だと思われがちです。しかしISTQBの基礎シラバスでは、テストは欠陥を見つけるだけでなく、品質を直接評価し、リリース判断の材料を提供する活動として位置づけられています。</p>
+          <p>NISTの用語集でも、テストは「条件を決めて対象を動かし、期待した結果と実際を比べる評価方法」と整理されています。つまりテストの本質は、勘ではなく比較可能な形で確認することにあります。</p>
+          <div class="note">ここでいう「欠陥」は、設計や実装の問題のことです。「品質評価」は、使ってよい状態かを見極めるための確認だと考えると分かりやすいです。</div>
+        </section>
+
+        <section>
+          <h2>2. 早く見つけるほど、修正コストは小さくなりやすい</h2>
+          <p>Android Developersの testing strategies では、良い戦略は「問題をできるだけ早く見つける」「素早く実行できる」「何を直すべきかが明確」と説明されています。これは、同じ不具合でも見つかるタイミングが遅いほど、調査範囲や関係者が増えやすいからです。</p>
+          <p>たとえば小さな単体テストで見つかる不具合なら、その場で数分から数十分で直せることがあります。一方、本番直前や公開後に見つかると、原因調査、再テスト、影響確認、関係者連絡まで必要になり、修正コストが一気に上がります。</p>
+          <p>「テストを増やす」の価値は、単に数を増やすことではなく、問題発見のタイミングを前に倒すことにあります。</p>
+        </section>
+
+        <section>
+          <h2>3. 実務では「小さいテストを多く、大きいテストを絞る」が基本</h2>
+          <p>Android Developersは、テストを小さいものから大きいものへ並べた「テストピラミッド」を基本戦略として紹介しています。小さいテストは速くて安定しやすく、大きいテストは現実に近い反面、準備や保守の負担が重くなりやすいからです。</p>
+          <p>実務では、まずロジック単位のテストで細かい壊れ方を拾い、そのうえで画面や機能のつながり、最後に公開前の重要導線を確認する流れが現実的です。全部を画面操作テストで賄おうとすると、実行時間が伸び、壊れやすいテストが増えやすくなります。</p>
+          <p>OWASPのWeb Security Testing Guideも、セキュリティ分野では体系的な観点を持ってテストする枠組みの重要性を示しています。つまり、機能テストでもセキュリティテストでも、行き当たりばったりではなく「どこを何の目的で見るか」を先に決めるのが基本です。</p>
+        </section>
+
+        <section>
+          <h2>4. 良いテストは「読める・速い・意図が明確」</h2>
+          <p>Microsoft Learnの単体テストのベストプラクティスでは、テスト名は「何を」「どんな条件で」「どうなるべきか」が分かる形にし、`Arrange-Act-Assert` で準備・実行・確認を分けることが勧められています。これは将来の自分や他の開発者が読んでも、失敗理由をすぐ理解できるようにするためです。</p>
+          <p>また、テスト自体に複雑な分岐や余計な依存関係を持ち込むと、テストが壊れやすくなります。テストは製品コードの監視役なので、監視役のほうが分かりにくい状態は避けたほうが安全です。</p>
+          <div class="note">単体テストは、部品レベルの確認テストです。`Arrange-Act-Assert` は「準備する → 実行する → 結果を確かめる」の3段階で書く型です。</div>
+        </section>
+
+        <section>
+          <h2>5. 結局は「安心して変更できる状態」を作るための投資</h2>
+          <p>テストの価値は、バグを1件見つけることだけではありません。変更しても壊れていないと確かめられるので、機能追加や修正のスピードを落としにくくなります。これは開発チームにとっての心理的な安心だけでなく、リリース判断の材料が増えるという実利にもつながります。</p>
+          <p>今回のメモは「テスト」の1語だけでしたが、深掘りすると、テストは終盤の確認作業ではなく、開発を前に進めるための学習ループだと整理できます。最初の一歩としては、重要機能に小さいテストを足し、失敗時に原因がすぐ分かる状態を作るのが効果的です。</p>
+        </section>
+      </div>
+
+      <div class="refs">
+        <h2>参考URL一覧</h2>
+        <ul>
+          <li><a href="https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf">https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf</a></li>
+          <li><a href="https://csrc.nist.gov/glossary/term/test">https://csrc.nist.gov/glossary/term/test</a></li>
+          <li><a href="https://developer.android.com/training/testing/fundamentals/strategies">https://developer.android.com/training/testing/fundamentals/strategies</a></li>
+          <li><a href="https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices">https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices</a></li>
+          <li><a href="https://owasp.org/www-project-web-security-testing-guide/">https://owasp.org/www-project-web-security-testing-guide/</a></li>
+        </ul>
+      </div>
+
+      <footer>
+        <p>この記事は、元メモ本文が「テスト」の1語だったため、一般的なソフトウェアテストの基本として解釈して整理しています。特定の開発現場のルールや品質基準そのものを定義するものではありません。</p>
+      </footer>
+    </article>
+  </main>
+  <!-- source_md: LINE/2026-06-27-620311402632708525.md -->
+</body>
+</html>
