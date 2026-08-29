@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ソフトウェアテストの基本: 不具合を減らすための現実的な考え方</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f3f6f8;
+      --paper: #ffffff;
+      --text: #1e2933;
+      --muted: #5d6b75;
+      --line: #d7e0e7;
+      --accent: #116466;
+      --accent-soft: #e6f4f2;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top right, rgba(17, 100, 102, 0.1), transparent 28%),
+        linear-gradient(180deg, #fbfcfd 0%, var(--bg) 240px);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "YuGothic", "Noto Sans JP", sans-serif;
+      line-height: 1.9;
+    }
+
+    main {
+      width: min(100%, 760px);
+      margin: 0 auto;
+      padding: 20px 14px 44px;
+    }
+
+    article {
+      overflow: hidden;
+      background: var(--paper);
+      border: 1px solid rgba(215, 224, 231, 0.9);
+      border-radius: 22px;
+      box-shadow: 0 18px 40px rgba(16, 24, 40, 0.08);
+    }
+
+    .hero {
+      padding: 26px 20px 18px;
+      background: linear-gradient(135deg, rgba(17, 100, 102, 0.16), rgba(255, 255, 255, 0.96));
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin: 0 0 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.72rem, 6vw, 2.3rem);
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+    }
+
+    .lead {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .summary {
+      margin: 18px 20px 0;
+      padding: 16px 17px;
+      border-left: 4px solid var(--accent);
+      border-radius: 0 12px 12px 0;
+      background: var(--accent-soft);
+      font-weight: 600;
+    }
+
+    .summary p {
+      margin: 0;
+    }
+
+    .content {
+      padding: 8px 20px 26px;
+    }
+
+    h2 {
+      margin: 28px 0 10px;
+      font-size: 1.18rem;
+      line-height: 1.45;
+    }
+
+    p {
+      margin: 0 0 15px;
+    }
+
+    .note {
+      margin: 18px 0;
+      padding: 14px 15px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fafcfd;
+    }
+
+    ul, ol {
+      margin: 10px 0 16px;
+      padding-left: 1.3em;
+    }
+
+    li {
+      margin: 0 0 8px;
+    }
+
+    a {
+      color: var(--accent);
+      overflow-wrap: anywhere;
+      text-decoration-thickness: 0.08em;
+      text-underline-offset: 0.18em;
+    }
+
+    .refs {
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .refs li {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .source {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 520px) {
+      main {
+        padding: 0 0 28px;
+      }
+
+      article {
+        border-radius: 0;
+        border-left: 0;
+        border-right: 0;
+      }
+
+      .hero {
+        padding: 22px 16px 16px;
+      }
+
+      .summary,
+      .content {
+        margin-left: 16px;
+        margin-right: 16px;
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      .summary {
+        padding: 14px 14px 14px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <article>
+      <header class="hero">
+        <p class="eyebrow">テーマ: ソフトウェアテスト</p>
+        <h1>ソフトウェアテストの基本: 不具合を減らすための現実的な考え方</h1>
+        <p class="lead">「テスト」は最後の確認作業ではなく、壊れやすい場所を早く見つけ、直しやすい形で開発を進めるための仕組みです。</p>
+      </header>
+
+      <section class="summary" aria-label="3行要約">
+        <p>ソフトウェアテストは、品質をゼロか100かで判定する儀式ではなく、失敗しやすい箇所を早めに見つける活動です。<br>
+        小さい単位のテスト、変更時の回帰テスト、現実の使われ方を想定したセキュリティテストを組み合わせると、事故を減らしやすくなります。<br>
+        重要なのは「全部を完璧に試す」ことではなく、目的に合ったテストを継続して回すことです。</p>
+      </section>
+
+      <div class="content">
+        <section>
+          <h2>1. テストの役割は「品質保証」よりまず「早期発見」</h2>
+          <p>ソフトウェアテストは、不具合があるかどうかを後から点検するだけの工程ではありません。開発中の小さな違和感を早く見つけ、修正コストが小さいうちに直すための活動です。</p>
+          <p>NISTの開発者向け検証ガイドでは、最低限の実務として、自動テスト、ブラックボックステスト、コード構造を意識したテスト、過去不具合の再確認、ファジングなどを組み合わせることが推奨されています。つまり、単一の手法だけで守るのではなく、性質の違う確認を重ねる前提です。</p>
+        </section>
+
+        <section>
+          <h2>2. テストレベルを分けると、原因の切り分けが速くなる</h2>
+          <p>ISTQBの用語では、ユニットテストは「最小単位を単独で確認するテスト」、統合テストは「部品同士のつながりを確認するテスト」、システムテストは「システム全体が要求どおりかを見るテスト」です。役割を分ける理由は、壊れた場所をすぐ特定できるようにするためです。</p>
+          <div class="note">
+            <p>実務では、ロジックの誤りはユニットテストで素早く検出し、API連携やDB接続のずれは統合テストで確認し、ユーザー導線や主要業務フローはシステムテストで押さえる形が現実的です。</p>
+          </div>
+          <p>全部をE2Eテストだけで確認しようとすると、失敗した時に原因が分かりにくく、修正も遅くなります。逆に小さい粒度だけでは、画面や外部連携の破綻を見逃します。粒度を混ぜる設計が必要です。</p>
+        </section>
+
+        <section>
+          <h2>3. 回帰テストは「直したのに別の場所を壊した」を防ぐ保険</h2>
+          <p>回帰テストとは、変更によって既存機能に新しい不具合が入り込んでいないかを確認するテストです。機能追加や修正が続く開発では、むしろこちらが日常運用の中心になります。</p>
+          <p>テストを自動化する価値は、同じ重要確認を何度でも低コストで繰り返せる点にあります。NISTも自動テストを最低限の検証技術の一つに含めています。ただし、自動化は万能ではありません。壊れやすいUI操作を大量に自動化すると、テスト自体の保守が重くなるため、重要フローと変更頻度の高い領域から優先して自動化する方が実用的です。</p>
+        </section>
+
+        <section>
+          <h2>4. セキュリティ観点のテストは別枠で考える</h2>
+          <p>通常の機能テストで「画面が動く」ことを確認しても、攻撃に耐えられるとは限りません。OWASPのWeb Security Testing Guideは、認証、認可、セッション管理、入力検証などを独立した観点として体系化しています。これは、ユーザーの正常操作だけを追うテストでは脆弱性を見つけにくいからです。</p>
+          <p>さらにNISTは、ランダムまたは想定外入力を大量に与えるファジングを有効な手法として紹介しています。入力境界や例外処理が弱い箇所は、通常のシナリオテストよりこうした探索的な手法で見つかることがあります。</p>
+        </section>
+
+        <section>
+          <h2>5. 小さく回るテスト戦略のほうが、結局は強い</h2>
+          <p>テストの品質は、テストケースの数だけでは決まりません。NISTの組合せテスト研究では、すべての条件を総当たりしなくても、主要な条件の組合せを押さえることで、コストを抑えつつ高い欠陥検出率が狙えるとされています。</p>
+          <p>現場で有効なのは、次のような構成です。</p>
+          <ul>
+            <li>壊れた原因を早く特定するためのユニットテスト</li>
+            <li>部品の接続不良を見つける統合テスト</li>
+            <li>事業上重要な導線だけを絞ったシステムテスト</li>
+            <li>過去不具合の再発防止用の回帰テスト</li>
+            <li>通常操作では見えない弱点を探すセキュリティテストやファジング</li>
+          </ul>
+          <p>結論として、良いテスト戦略は「完璧な網羅」ではなく、「限られた時間でどの失敗を先に潰すか」を明確にする設計です。</p>
+        </section>
+
+        <section class="refs" aria-label="参考URL一覧">
+          <h2>参考URL一覧</h2>
+          <ol>
+            <li>NIST IR 8397, Guidelines on Minimum Standards for Developer Verification of Software<br><a href="https://csrc.nist.gov/pubs/ir/8397/final">https://csrc.nist.gov/pubs/ir/8397/final</a></li>
+            <li>ISTQB Glossary: unit testing<br><a href="https://glossary.istqb.org/en_US/term/unit-testing">https://glossary.istqb.org/en_US/term/unit-testing</a></li>
+            <li>ISTQB Glossary: integration testing<br><a href="https://glossary.istqb.org/en_US/term/integration-testing">https://glossary.istqb.org/en_US/term/integration-testing</a></li>
+            <li>ISTQB Glossary: system testing<br><a href="https://glossary.istqb.org/en_US/term/system-testing">https://glossary.istqb.org/en_US/term/system-testing</a></li>
+            <li>ISTQB Glossary: regression testing<br><a href="https://glossary.istqb.org/en_US/term/regression-testing">https://glossary.istqb.org/en_US/term/regression-testing</a></li>
+            <li>OWASP Web Security Testing Guide<br><a href="https://owasp.org/www-project-web-security-testing-guide/">https://owasp.org/www-project-web-security-testing-guide/</a></li>
+            <li>NIST Combinatorial Testing<br><a href="https://www.nist.gov/programs-projects/combinatorial-testing">https://www.nist.gov/programs-projects/combinatorial-testing</a></li>
+            <li>NIST Fuzz Testing for Software Assurance<br><a href="https://www.nist.gov/publications/fuzz-testing-software-assurance">https://www.nist.gov/publications/fuzz-testing-software-assurance</a></li>
+          </ol>
+          <p class="source">元メモ: LINE/2026-06-27-620311402632708525.md（本文「テスト」）</p>
+        </section>
+      </div>
+    </article>
+  </main>
+  <!-- source_md: LINE/2026-06-27-620311402632708525.md -->
+</body>
+</html>
